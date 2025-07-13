@@ -1,0 +1,44 @@
+# Gitignore for Helm Chart Project (macOS & IntelliJ)
+
+# macOS specific files
+.DS_Store
+
+# IntelliJ IDEA project files
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+out/
+target/
+
+# Helm specific ignores
+# Packaged Helm charts (top-level)
+*.tgz
+*.tar.gz
+Chart.lock
+
+
+# Helm linting/testing artifacts (e.g., from 'helm lint' or 'helm test')
+.helm/
+tmp/
+
+# General build artifacts and logs
+build/
+dist/
+log/
+logs/
+*.log
+*.err
+*.out
+
+# Editor/IDE specific (common)
+.vscode/
+.env
+venv/
+node_modules/
+
+# Crash logs
+hs_err_pid*.log

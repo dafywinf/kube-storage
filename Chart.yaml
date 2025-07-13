@@ -1,0 +1,35 @@
+apiVersion: v2
+name: kube-storage
+description: A Helm umbrella chart for deploying Longhorn and custom local-path storage in K3s.
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: longhorn
+    version: "^1.0.0"
+    repository: "https://charts.longhorn.io"
+    condition: longhorn.enabled
+
+  - name: local-path-storage
+    version: "^1.0.0"
+    repository: "file://charts/local-path-storage"
+    condition: local-path-storage.enabled
+
+  - name: fio-performance-test
+    alias: local-path-fio-performance-test
+    version: "^1.0.0"
+    repository: "file://charts/fio-performance-test"
+    condition: local-path-fio-performance-test.enabled
+
+  - name: fio-performance-test
+    alias: longhorn-fio-performance-test
+    version: "^1.0.0"
+    repository: "file://charts/fio-performance-test"
+    condition: longhorn-fio-performance-test.enabled
+
+  - name: fio-performance-test
+    alias: local-path-mnt-data-fio-performance-test
+    version: "^1.0.0"
+    repository: "file://charts/fio-performance-test"
+    condition: local-path-storage-fio-performance-test.enabled
+

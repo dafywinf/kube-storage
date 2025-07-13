@@ -1,0 +1,5 @@
+apiVersion: v2
+name: fio-performance-test
+description: A simple Persistent Volume performance test pod using fio
+type: application
+version: 1.0.0

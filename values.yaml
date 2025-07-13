@@ -1,0 +1,58 @@
+local-path-storage:
+  enabled: true
+  storageClassName: "local-path-mnt-data"
+  path: /mnt/data/local-storage # Path where local-path storage will store data
+
+longhorn:
+  enabled: true
+  defaultSettings:
+    defaultReplicaCount: 2
+    defaultDataPath: /mnt/data/longhorn-storage
+    createDefaultDiskLabeledNodes: false
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+    host: longhorn.192-168-86-10.sslip.io
+    tls: true
+  persistence:
+    defaultClass: true
+    defaultClassReplicaCount: 2
+
+###############################
+# Performance Test Containers #
+###############################
+
+# Note: This is the default rancher local-storage
+local-path-fio-performance-test:
+  enabled: true
+  delaySeconds: 0
+  testResourcePrefix: "local-path"
+  storageClass: "local-path"
+  volumeSize: 10Gi
+  fio:
+    size: 5Gi
+
+local-path-mnt-data-fio-performance-test:
+  enabled: true
+  delaySeconds: 0
+  testResourcePrefix: "local-path-mnt-data"
+  storageClass: "local-path-mnt-data"
+  volumeSize: 10Gi
+  fio:
+    size: 5Gi
+
+longhorn-fio-performance-test:
+  enabled: true
+  delaySeconds: 0
+  testResourcePrefix: "longhorn"
+  storageClass: "longhorn"
+  volumeSize: 10Gi
+  fio:
+    size: 5Gi
+
+
+
+

@@ -1,0 +1,2 @@
+path: "/mnt/data"
+storageClassName: local-path-mnt-data

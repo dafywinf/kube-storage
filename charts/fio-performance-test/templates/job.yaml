@@ -1,0 +1,46 @@
+{{- if .Values.enabled }}
+{{- $now := now | quote }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.testResourcePrefix }}-fio-perf-job
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+    "restartedAt": {{ $now }}
+spec:
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ $now }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: fio-test-container
+          image: "{{ .Values.image }}"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -eux
+              apk add --no-cache fio
+              sleep {{ .Values.delaySeconds | default 0 }}
+              export FILENAME="{{ .Values.fio.mountPath }}/{{ .Values.fio.testFileName }}"
+              fio --name={{ .Values.fio.name | default "test" }} \
+                  --filename=$FILENAME \
+                  --size={{ .Values.fio.size }} \
+                  --bs={{ .Values.fio.blockSize }} \
+                  --rw={{ .Values.fio.rw }} \
+                  --ioengine={{ .Values.fio.ioengine }} \
+                  --direct={{ .Values.fio.direct }} \
+                  --numjobs={{ .Values.fio.numjobs }} \
+                  --runtime={{ .Values.fio.runtime }} \
+                  {{ .Values.fio.extraArgs }} \
+                  --unlink=1
+          volumeMounts:
+            - name: test-volume
+              mountPath: {{ .Values.fio.mountPath }}
+      volumes:
+        - name: test-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.testResourcePrefix }}-perf-pvc
+{{- end }}

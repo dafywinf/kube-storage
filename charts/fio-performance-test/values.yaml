@@ -1,0 +1,20 @@
+enabled: false                      # Controls whether the performance test pod and PVC are deployed
+delaySeconds: 0                     # Optional delay before starting the test (e.g. for volume readiness)
+testResourcePrefix: local-path      # Prefix for the performance test pod and PVC names
+storageClass: local-path            # Name of the StorageClass to use for the PVC (e.g. Longhorn)
+volumeSize: 5Gi                     # Requested size of the PersistentVolumeClaim
+image: alpine:latest                # Container image to run fio (flexible for custom test containers)
+
+# Configuration for the FIO performance test
+fio:
+  name: write-test                   # Name of the FIO job — appears in output
+  mountPath: /mnt/test               # Container path where the Longhorn PVC will be mounted
+  testFileName: testfile             # The filename to test with (will be written to mountPath)
+  size: 1G                           # Total size of the file to write during the test
+  blockSize: 4k                      # Block size for read/write operations (e.g. 4k, 64k)
+  rw: write                          # I/O pattern: write, read, randwrite, randread, randrw, etc.
+  ioengine: libaio                   # I/O engine to use — 'libaio' for Linux async I/O
+  direct: 1                          # Use direct I/O (bypass OS page cache) — 1 = enabled
+  numjobs: 4                         # Number of parallel threads/jobs running the test
+  runtime: 60                        # Duration of the test in seconds
+  extraArgs: "--group_reporting"     # Additional raw FIO arguments (e.g. reporting style)

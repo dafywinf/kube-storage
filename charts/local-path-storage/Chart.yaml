@@ -1,0 +1,5 @@
+apiVersion: v2
+name: local-path-storage
+description: A custom local-path StorageClass for K3s mounting to /mnt/data
+type: application
+version: 1.0.0
