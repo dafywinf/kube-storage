@@ -6,7 +6,7 @@ version: 0.1.0
 
 dependencies:
   - name: longhorn
-    version: "^1.0.0"
+    version: "1.9.2"
     repository: "https://charts.longhorn.io"
     condition: longhorn.enabled
 
@@ -31,5 +31,5 @@ dependencies:
     alias: local-path-mnt-data-fio-performance-test
     version: "^1.0.0"
     repository: "file://charts/fio-performance-test"
-    condition: local-path-storage-fio-performance-test.enabled
+    condition: local-path-mnt-data-fio-performance-test.enabled
 

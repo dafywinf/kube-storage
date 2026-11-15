@@ -29,9 +29,14 @@ longhorn:
 # Performance Test Containers #
 ###############################
 
+# FIO benchmarks are one-off: run one with e.g.
+#   helm upgrade kube-storage . -n kube-storage -f values.yaml --set longhorn-fio-performance-test.enabled=true
+# and disable it again afterwards. Each render stamps the Job's pod template with the current time, and a Job's
+# template is immutable, so leaving them enabled breaks every later `helm upgrade`.
+
 # Note: This is the default rancher local-storage
 local-path-fio-performance-test:
-  enabled: true
+  enabled: false
   delaySeconds: 0
   testResourcePrefix: "local-path"
   storageClass: "local-path"
@@ -40,7 +45,7 @@ local-path-fio-performance-test:
     size: 5Gi
 
 local-path-mnt-data-fio-performance-test:
-  enabled: true
+  enabled: false
   delaySeconds: 0
   testResourcePrefix: "local-path-mnt-data"
   storageClass: "local-path-mnt-data"
@@ -49,7 +54,7 @@ local-path-mnt-data-fio-performance-test:
     size: 5Gi
 
 longhorn-fio-performance-test:
-  enabled: true
+  enabled: false
   delaySeconds: 0
   testResourcePrefix: "longhorn"
   storageClass: "longhorn"
