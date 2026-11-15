@@ -1,7 +1,11 @@
 local-path-storage:
   enabled: true
   storageClassName: "local-path-mnt-data"
-  path: /mnt/data/local-storage # Path where local-path storage will store data
+  # NOTE: k3s bundles local-path-provisioner v0.0.27, which IGNORES this StorageClass `path` parameter.
+  # Volumes go wherever k3s's local-path-config points: set by the k3s server flag
+  # --default-local-storage-path /mnt/data/local-storage (k3s-cluster-bootstrap group_vars).
+  # Before 2026-11-15 that flag was unset, and volumes landed on the 30 GiB root disk.
+  path: /mnt/data/local-storage
 
 longhorn:
   enabled: true
